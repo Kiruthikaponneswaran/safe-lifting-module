@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Safe Lifting: 5-Minute Module for New Warehouse Associates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F6F2;--surface:#fff;--ink:#1F2A37;--muted:#5B6674;--tape:#F2C200;--line:#D9D7CF;--ok:#2E7D4F;--bad:#B3392F;--okbg:#E5F2EA;--badbg:#F8E6E4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141B24;--surface:#1D2733;--ink:#EEF1F4;--muted:#A3AEBB;--line:#34414F;--okbg:#17332437;--badbg:#3A1E1C;--ok:#6CCB92;--bad:#F08A80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141B24;--surface:#1D2733;--ink:#EEF1F4;--muted:#A3AEBB;--line:#34414F;--okbg:#173324;--badbg:#3A1E1C;--ok:#6CCB92;--bad:#F08A80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Source Sans 3",system-ui,sans-serif}
+.wrap{max-width:680px;margin:0 auto;padding:20px 18px 60px}
+.tape{height:14px;background:repeating-linear-gradient(-45deg,var(--tape) 0 14px,var(--ink) 14px 28px)}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,7vw,2.8rem);font-weight:800;margin:22px 0 10px}
+h2{font-size:1.4rem;font-weight:800;margin:40px 0 12px}
+h3{font-size:1.05rem;font-weight:800}
+.meta{color:var(--muted);margin:0 0 18px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.box ul{margin:8px 0 0;padding-left:20px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);height:6px;background:var(--line);z-index:5}
+.bar i{display:block;height:100%;width:0;background:var(--tape);transition:width .3s}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs button{flex:1;font:600 1rem "Source Sans 3",sans-serif;padding:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer}
+.tabs button[aria-selected="true"]{border-color:var(--tape);background:var(--tape);color:#1F2A37}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.fb{margin:6px 0 0;font-size:.95rem;color:var(--muted);min-height:1.4em}
+.btn{font:800 1rem Archivo,sans-serif;background:var(--ink);color:var(--bg);border:0;border-radius:8px;padding:12px 20px;cursor:pointer}
+.notes{border-left:6px solid var(--tape);padding-left:16px;margin-top:48px}
+.notes p{margin:6px 0;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+td,th{text-align:left;border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+</style>
+</head>
+<body>
+<div class="tape"></div>
+<div class="bar" aria-hidden="true"><i id="prog"></i></div>
+<main class="wrap">
+<h1>Lift it right, every time</h1>
+<p class="meta">Safe manual handling for new warehouse associates. About 5 minutes.</p>
+
+<div class="box"><h3>By the end of this module you can:</h3>
+<ul><li>Check a load before you lift it.</li><li>Use the correct lifting posture.</li><li>Decide when to ask for help or equipment.</li></ul></div>
+
+<h2>Learn the 3 steps</h2>
+<div class="tabs" role="tablist" id="tabs">
+<button role="tab" aria-selected="true" data-i="0">Check</button>
+<button role="tab" aria-selected="false" data-i="1">Lift</button>
+<button role="tab" aria-selected="false" data-i="2">Move</button>
+</div>
+<div class="box" id="panel" aria-live="polite"></div>
+
+<h2>Try it: what would you do?</h2>
+<div class="box"><p><b>Scenario.</b> A box on the bottom shelf is marked 22 kg. It is awkward to hold. Your trolley is two aisles away. What do you do first?</p>
+<div id="sc"></div><p class="fb" id="scfb"></p></div>
+
+<h2>Check your knowledge</h2>
+<div id="quiz"></div>
+<p id="done" class="box" hidden><b>Module complete.</b> You scored <span id="score"></span> of 3. Review the steps above any time before your first shift.</p>
+
+<section class="notes">
+<h3>Design notes (for reviewers)</h3>
+<div class="tbl"><table>
+<tr><th>Audience</th><td>New fulfillment center associates, mostly on mobile, limited time</td></tr>
+<tr><th>Model</th><td>ADDIE: analysed the task and risk, designed 3 objectives, built a micro-module, then evaluate with quiz data</td></tr>
+<tr><th>Principles</th><td>Adult learning: relevant task first, short chunks, practice in a real scenario, instant feedback</td></tr>
+<tr><th>Objectives</th><td>Written with action verbs (check, use, decide) and each one is tested below</td></tr>
+<tr><th>Build</th><td>HTML, CSS and JavaScript only. Works on a phone, keyboard accessible, light and dark mode</td></tr>
+</table></div>
+<p>Sample project by Kiruthika Ponneswaran.</p>
+</section>
+</main>
+<script>
+var steps=[
+["Check the load","Read the label and look at the shape. Is it over 15 kg, awkward or hard to grip? Is the path clear? If any answer worries you, stop and ask for help."],
+["Lift with your legs","Feet shoulder-width apart. Bend your knees, keep your back straight and the load close to your body. Lift smoothly. Do not jerk."],
+["Move without twisting","Turn your feet, not your waist. Put the load down the same way you picked it up: knees bent, back straight."]];
+var panel=document.getElementById("panel"),tabs=document.querySelectorAll("#tabs button"),seen={},answered=0,score=0;
+function show(i){tabs.forEach(function(b,k){b.setAttribute("aria-selected",k==i)});
+panel.innerHTML="<h3>Step "+(i+1)+": "+steps[i][0]+"</h3><p>"+steps[i][1]+"</p>";seen[i]=1;prog()}
+tabs.forEach(function(b){b.onclick=function(){show(+b.dataset.i)}});
+function prog(){var p=(Object.keys(seen).length/3*30)+(answered/4*70);document.getElementById("prog").style.width=p+"%"}
+function question(host,opts,correct,right,wrong,onAns,fbEl){
+opts.forEach(function(t,k){var b=document.createElement("button");b.className="opt";b.textContent=t;
+b.onclick=function(){if(host.dataset.done)return;host.dataset.done=1;
+var all=host.querySelectorAll(".opt");all[correct].classList.add("ok");
+if(k!=correct)b.classList.add("bad");
+fbEl.textContent=k==correct?right:wrong;onAns(k==correct)};host.appendChild(b)})}
+question(document.getElementById("sc"),["Lift it quickly before anyone sees","Get the trolley or ask a teammate to help","Twist and drag it off the shelf"],1,
+"Right. Over the safe limit and awkward means get equipment or help first.","Not quite. Stop, then bring the trolley or ask for help. Never rush or twist a heavy load.",function(){answered++;prog()},document.getElementById("scfb"));
+var qs=[["Which body part should do most of the work when you lift?",["Back","Legs","Arms"],1,"Correct. Bend the knees and let the legs lift.","The legs. Your back is not built for lifting."],
+["Where should the load be while you carry it?",["Close to your body","Out in front","Over one shoulder"],0,"Correct. Close loads put less strain on your back.","Close to your body."],
+["You need to change direction while carrying. What do you do?",["Twist at the waist","Turn your feet","Jump"],1,"Correct. Turn your feet so your spine stays straight.","Turn your feet. Twisting is a common cause of back injury."]];
+var qh=document.getElementById("quiz"),count=0;
+qs.forEach(function(q,n){var d=document.createElement("div");d.className="box";d.innerHTML="<p><b>Q"+(n+1)+".</b> "+q[0]+"</p>";
+var h=document.createElement("div"),f=document.createElement("p");f.className="fb";d.appendChild(h);d.appendChild(f);qh.appendChild(d);
+question(h,q[1],q[2],q[3],q[4],function(ok){if(ok)score++;answered++;count++;prog();
+if(count==3){document.getElementById("score").textContent=score;document.getElementById("done").hidden=false}},f)});
+show(0);
+</script>
+</body>
+</html>
